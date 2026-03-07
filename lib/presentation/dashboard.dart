@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:itikaf_tracker/common/helper/layouts/responsive.dart';
 import 'package:itikaf_tracker/common/helper/utils.dart';
 import 'package:itikaf_tracker/core/configs/configs.dart';
 import 'package:itikaf_tracker/data/models/itikaf.dart';
 import 'package:itikaf_tracker/data/source/remote/backend/remote_backend_services.dart';
 import 'package:itikaf_tracker/presentation/widgets/absen_table.dart';
+import 'package:itikaf_tracker/presentation/widgets/absensi_section.dart';
+import 'package:itikaf_tracker/presentation/widgets/chart_section.dart';
 import 'package:itikaf_tracker/presentation/widgets/last_ten_nights_timeline.dart';
 import 'package:itikaf_tracker/presentation/widgets/peserta_chart.dart';
 import 'package:itikaf_tracker/presentation/widgets/peserta_table.dart';
+import 'package:itikaf_tracker/presentation/widgets/summary_card.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -77,146 +81,172 @@ class _DashboardPageState extends State<DashboardPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Text(
-                    "${Configs.appName} Dashboard $year",
-                    style: const TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
+              Responsive(
+                mobile: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${Configs.appName} Dashboard $year",
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const Spacer(),
-                  //Tanggal dan Waktu Jam sekarang real time dengan detiknya juga
-                  StreamBuilder<DateTime>(
-                    stream: Stream.periodic(const Duration(seconds: 1), (_) {
-                      return DateTime.now();
-                    }),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        final now = snapshot.data!;
-                        //format nya seperti ini 9 Mar 20226 09:30:45 WIB
-                        final formattedDate =
-                            "${now.day} ${getMonthAbbreviation(now.month)} ${now.year} ${now.hour}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')} WIB";
+                    const SizedBox(height: 6),
 
-                        return Text(
-                          formattedDate,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.grey,
-                          ),
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    },
-                  ),
-                  //
-                ],
+                    /// CLOCK
+                    _ClockWidget(),
+                  ],
+                ),
+
+                tablet: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "${Configs.appName} Dashboard $year",
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const _ClockWidget(),
+                  ],
+                ),
+
+                desktop: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "${Configs.appName} Dashboard $year",
+                        style: const TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const _ClockWidget(),
+                  ],
+                ),
               ),
 
               const SizedBox(height: 20),
 
               /// SUMMARY CARDS
-              Row(
-                children: const [
-                  Expanded(
-                    child: _SummaryCard(
+              Responsive(
+                /// MOBILE
+                mobile: Column(
+                  children: const [
+                    SummaryCard(
                       title: Configs.totalPeserta,
                       value: "120",
                       color: Colors.blue,
                     ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: _SummaryCard(
+                    SizedBox(height: 12),
+                    SummaryCard(
                       title: Configs.totalHadir,
                       value: "60",
                       color: Colors.greenAccent,
                     ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: _SummaryCard(
+                    SizedBox(height: 12),
+                    SummaryCard(
                       title: Configs.totalTidakHadir,
                       value: "25",
                       color: Colors.redAccent,
                     ),
-                  ),
-                ],
+                  ],
+                ),
+
+                /// TABLET
+                tablet: Column(
+                  children: [
+                    Row(
+                      children: const [
+                        Expanded(
+                          child: SummaryCard(
+                            title: Configs.totalPeserta,
+                            value: "120",
+                            color: Colors.blue,
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: SummaryCard(
+                            title: Configs.totalHadir,
+                            value: "60",
+                            color: Colors.greenAccent,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    const SummaryCard(
+                      title: Configs.totalTidakHadir,
+                      value: "25",
+                      color: Colors.redAccent,
+                    ),
+                  ],
+                ),
+
+                /// DESKTOP
+                desktop: Row(
+                  children: const [
+                    Expanded(
+                      child: SummaryCard(
+                        title: Configs.totalPeserta,
+                        value: "120",
+                        color: Colors.blue,
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: SummaryCard(
+                        title: Configs.totalHadir,
+                        value: "60",
+                        color: Colors.greenAccent,
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: SummaryCard(
+                        title: Configs.totalTidakHadir,
+                        value: "25",
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
               const SizedBox(height: 30),
 
               /// CHART
               /// CHART + ABSENSI
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /// CHART ASAL PESERTA
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      height: 260,
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(color: Colors.black12, blurRadius: 5),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            Configs.asal,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          Expanded(child: PesertaChart()),
-                        ],
-                      ),
-                    ),
-                  ),
+              Responsive(
+                mobile: Column(
+                  children: const [
+                    ChartSection(),
+                    SizedBox(height: 20),
+                    AbsensiSection(),
+                  ],
+                ),
 
-                  const SizedBox(width: 20),
+                tablet: Column(
+                  children: const [
+                    ChartSection(),
+                    SizedBox(height: 20),
+                    AbsensiSection(),
+                  ],
+                ),
 
-                  /// ABSENSI PESERTA
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 260,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(color: Colors.black12, blurRadius: 5),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            Configs.absensi,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                          Expanded(
-                            child: SingleChildScrollView(child: AbsensiTable()),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                desktop: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Expanded(flex: 2, child: ChartSection()),
+                    SizedBox(width: 20),
+                    Expanded(flex: 1, child: AbsensiSection()),
+                  ],
+                ),
               ),
 
               const SizedBox(height: 30),
@@ -248,7 +278,6 @@ class _DashboardPageState extends State<DashboardPage> {
               const SizedBox(height: 10),
 
               /// TABLE
-              /// filter nya
               /// search nya
               PesertaTable(itikafData: itikafData),
               //
@@ -282,46 +311,33 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 }
 
-/// SUMMARY CARD
-class _SummaryCard extends StatelessWidget {
-  final String title;
-  final String value;
-  final Color color;
-
-  const _SummaryCard({
-    required this.title,
-    required this.value,
-    required this.color,
-  });
+class _ClockWidget extends StatelessWidget {
+  const _ClockWidget();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 110,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+    return StreamBuilder<DateTime>(
+      stream: Stream.periodic(const Duration(seconds: 1), (_) {
+        return DateTime.now();
+      }),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const SizedBox();
+
+        final now = snapshot.data!;
+
+        final formattedDate =
+            "${now.day} ${getMonthAbbreviation(now.month)} ${now.year} "
+            "${now.hour}:${now.minute.toString().padLeft(2, '0')}:"
+            "${now.second.toString().padLeft(2, '0')} WIB";
+
+        return Text(
+          formattedDate,
+          style: TextStyle(
+            fontSize: Responsive.isMobile(context) ? 14 : 18,
+            color: Colors.grey[700],
           ),
-          const SizedBox(height: 5),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 14, color: Colors.white70),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
