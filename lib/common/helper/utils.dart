@@ -21,6 +21,11 @@ String formatFullDate(DateTime date) {
   return "${date.day} ${getMonthAbbreviation(date.month)} ${date.year}";
 }
 
+//Format 9 Mar 2026 Jam Sekarang
+String formatFullDateWithTime(DateTime date) {
+  return "${date.day} ${getMonthAbbreviation(date.month)} ${date.year} Jam ${date.hour}:${date.minute.toString().padLeft(2, '0')} WIB";
+}
+
 /// Format: 9 Mar
 String formatShortDate(DateTime date) {
   return "${date.day} ${getMonthAbbreviation(date.month)} ${date.year}";

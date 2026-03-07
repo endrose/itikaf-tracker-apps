@@ -3,8 +3,10 @@ import 'package:itikaf_tracker/common/helper/utils.dart';
 import 'package:itikaf_tracker/core/configs/configs.dart';
 import 'package:itikaf_tracker/data/models/itikaf.dart';
 import 'package:itikaf_tracker/data/source/remote/backend/remote_backend_services.dart';
+import 'package:itikaf_tracker/presentation/widgets/absen_table.dart';
 import 'package:itikaf_tracker/presentation/widgets/last_ten_nights_timeline.dart';
 import 'package:itikaf_tracker/presentation/widgets/peserta_chart.dart';
+import 'package:itikaf_tracker/presentation/widgets/peserta_table.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -75,12 +77,42 @@ class _DashboardPageState extends State<DashboardPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "${Configs.appName} Dashboard $year",
-                style: const TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                children: [
+                  Text(
+                    "${Configs.appName} Dashboard $year",
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Spacer(),
+                  //Tanggal dan Waktu Jam sekarang real time dengan detiknya juga
+                  StreamBuilder<DateTime>(
+                    stream: Stream.periodic(const Duration(seconds: 1), (_) {
+                      return DateTime.now();
+                    }),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final now = snapshot.data!;
+                        //format nya seperti ini 9 Mar 20226 09:30:45 WIB
+                        final formattedDate =
+                            "${now.day} ${getMonthAbbreviation(now.month)} ${now.year} ${now.hour}:${now.minute.toString().padLeft(2, '0')}:${now.second.toString().padLeft(2, '0')} WIB";
+
+                        return Text(
+                          formattedDate,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.grey,
+                          ),
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
+                    },
+                  ),
+                  //
+                ],
               ),
 
               const SizedBox(height: 20),
@@ -98,25 +130,17 @@ class _DashboardPageState extends State<DashboardPage> {
                   SizedBox(width: 16),
                   Expanded(
                     child: _SummaryCard(
-                      title: Configs.sedangItikaf,
-                      value: "35",
-                      color: Colors.green,
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: _SummaryCard(
-                      title: Configs.selesai,
+                      title: Configs.totalHadir,
                       value: "60",
-                      color: Colors.grey,
+                      color: Colors.greenAccent,
                     ),
                   ),
                   SizedBox(width: 16),
                   Expanded(
                     child: _SummaryCard(
-                      title: Configs.akanDatang,
+                      title: Configs.totalTidakHadir,
                       value: "25",
-                      color: Colors.orange,
+                      color: Colors.redAccent,
                     ),
                   ),
                 ],
@@ -125,42 +149,95 @@ class _DashboardPageState extends State<DashboardPage> {
               const SizedBox(height: 30),
 
               /// CHART
-              Container(
-                height: 220,
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: const [
-                    BoxShadow(color: Colors.black12, blurRadius: 5),
-                  ],
-                ),
-                child: const PesertaChart(),
+              /// CHART + ABSENSI
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// CHART ASAL PESERTA
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      height: 260,
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
+                          BoxShadow(color: Colors.black12, blurRadius: 5),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            Configs.asal,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 20),
+                          Expanded(child: PesertaChart()),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 20),
+
+                  /// ABSENSI PESERTA
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      height: 260,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
+                          BoxShadow(color: Colors.black12, blurRadius: 5),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            Configs.absensi,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          Expanded(
+                            child: SingleChildScrollView(child: AbsensiTable()),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
 
               const SizedBox(height: 30),
 
               /// LAST TEN NIGHTS
-              const Text(
-                "10 Malam Terakhir Ramadhan",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              Text(
+                "${Configs.lastTenNights} ",
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
 
               const SizedBox(height: 10),
 
               //tanggal bulan tahun nya itu diambil dari kalender 2026, jadi 10 malam terakhir itu mulai dari tanggal 20 Maret 2026 sampai 29 Maret 2026 otomatis
-              // LastTenNightsTimeline(start: Configs.lastTenNightsStart),
-              // LastTenNightsTimeline(
-              //   start: Configs.lastTenNightsStart,
-              //   year: Configs.currentYear,
-              // ),
               LastTenNightsTimeline(
                 start: DateTime(2026, 3, 1),
                 year: Configs.currentYear,
               ),
 
-              //LastTenNightsTimeline(start: DateTime(2026, 3, 20)),
               const SizedBox(height: 30),
 
               const Text(
@@ -171,47 +248,9 @@ class _DashboardPageState extends State<DashboardPage> {
               const SizedBox(height: 10),
 
               /// TABLE
-              Container(
-                height: 320,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columns: const [
-                      DataColumn(label: Text("Nama")),
-                      DataColumn(label: Text("Telepon")),
-                      DataColumn(label: Text("Alamat")),
-                      DataColumn(label: Text("Tanggal Lahir")),
-                      DataColumn(label: Text("Asal")),
-                      DataColumn(label: Text("Awal")),
-                      DataColumn(label: Text("Akhir")),
-                      DataColumn(label: Text("Deskripsi")),
-                    ],
-
-                    //ganti dengan itikafData yang diambil dari api
-                    rows: itikafData
-                        .map(
-                          (e) => DataRow(
-                            cells: [
-                              DataCell(Text(e.nama)),
-                              DataCell(Text(e.telepon)),
-                              DataCell(Text(e.alamat)),
-                              DataCell(Text(formatFullDate(e.tanggalLahir))),
-                              DataCell(Text(e.asal)),
-                              DataCell(Text(formatShortDate(e.awal))),
-                              DataCell(Text(formatShortDate(e.akhir))),
-                              DataCell(Text(e.deskripsi)),
-                            ],
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ),
+              /// filter nya
+              /// search nya
+              PesertaTable(itikafData: itikafData),
               //
               const SizedBox(height: 80),
               Container(
@@ -229,7 +268,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     const SizedBox(height: 4),
                     //icon love
                     const Text(
-                      "Made with ❤️ by Itikaf Tracker Team",
+                      Configs.footerName,
                       style: TextStyle(fontSize: 11, color: Colors.grey),
                     ),
                   ],
