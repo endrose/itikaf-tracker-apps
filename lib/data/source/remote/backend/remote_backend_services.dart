@@ -5,26 +5,68 @@ abstract class RemoteBackendServices {
   // http://itikaftracker.somee.com/api/itikaf
   //
   Future<List<ItikafModels>> fetchItikafData();
+  //Auth
+
+  Future<String> authenticate(String username, String password);
 }
 
 class RemoteBackendServicesImpl implements RemoteBackendServices {
-  final _dio = Dio(
-    BaseOptions(
-      baseUrl: 'http://itikaftracker.somee.com/api',
-      connectTimeout: const Duration(seconds: 5),
-    ),
-  );
+  late Dio _dio;
+
+  String token = '';
+
+  RemoteBackendServicesImpl() {
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: "http://itikaftracker.somee.com/api/",
+        connectTimeout: const Duration(seconds: 10),
+      ),
+    );
+
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          if (token.isNotEmpty) {
+            options.headers["Authorization"] = "Bearer $token";
+          }
+          handler.next(options);
+        },
+      ),
+    );
+  }
+
+  @override
+  Future<String> authenticate(String username, String password) async {
+    // TODO: implement authenticate
+    try {
+      final response = await _dio.post(
+        "/Auth/login",
+        data: {"username": username, "password": password},
+      );
+
+      if (response.statusCode == 200) {
+        token = response.data["token"];
+        print("Authenticated successfully, token: $token");
+        return token;
+      }
+
+      throw Exception("Login failed");
+    } catch (e) {
+      throw Exception("Auth error $e");
+    }
+  }
+
   @override
   Future<List<ItikafModels>> fetchItikafData() async {
-    // Simulasi pengambilan data dari backend
     try {
       final response = await _dio.get('/itikaf');
+
       if (response.statusCode == 200) {
         final List data = response.data;
         return data.map((json) => ItikafModels.fromJson(json)).toList();
-      } else {
-        throw Exception('Failed to load itikaf data');
       }
+
+      throw Exception('Failed to load itikaf data');
     } catch (e) {
       throw Exception('Error fetching itikaf data: $e');
     }

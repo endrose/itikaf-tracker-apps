@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itikaf_tracker/common/helper/utils.dart';
 import 'package:itikaf_tracker/core/configs/configs.dart';
 import 'package:itikaf_tracker/data/models/itikaf.dart';
 import 'package:itikaf_tracker/data/source/remote/backend/remote_backend_services.dart';
@@ -13,25 +14,49 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  final RemoteBackendServicesImpl service = RemoteBackendServicesImpl();
+
   List<ItikafModels> itikafData = [];
+
+  String token = '';
+
   @override
   void initState() {
     super.initState();
-    fetchData();
+    init();
+  }
+
+  //init async
+  Future<void> init() async {
+    await login();
+    await fetchData();
+  }
+
+  //login
+  Future<void> login() async {
+    try {
+      final token = await service.authenticate(
+        'admin',
+        '123',
+      ); // Ganti dengan kredensial yang valid
+
+      this.token = token;
+      print("Token: $token");
+    } catch (e) {
+      print("Error during authentication: $e");
+    }
   }
 
   //ambil data peserta itikaf dari api fetchItikafData
 
   Future<void> fetchData() async {
     try {
-      final data = await RemoteBackendServicesImpl().fetchItikafData();
+      final data = await service.fetchItikafData();
 
-      // Handle data as needed
       setState(() {
         itikafData = data;
       });
     } catch (e) {
-      // Handle error
       print("Error fetching data: $e");
     }
   }
@@ -125,7 +150,15 @@ class _DashboardPageState extends State<DashboardPage> {
               const SizedBox(height: 10),
 
               //tanggal bulan tahun nya itu diambil dari kalender 2026, jadi 10 malam terakhir itu mulai dari tanggal 20 Maret 2026 sampai 29 Maret 2026 otomatis
-              LastTenNightsTimeline(start: Configs.lastTenNightsStart),
+              // LastTenNightsTimeline(start: Configs.lastTenNightsStart),
+              // LastTenNightsTimeline(
+              //   start: Configs.lastTenNightsStart,
+              //   year: Configs.currentYear,
+              // ),
+              LastTenNightsTimeline(
+                start: DateTime(2026, 3, 1),
+                year: Configs.currentYear,
+              ),
 
               //LastTenNightsTimeline(start: DateTime(2026, 3, 20)),
               const SizedBox(height: 30),
@@ -167,16 +200,39 @@ class _DashboardPageState extends State<DashboardPage> {
                               DataCell(Text(e.nama)),
                               DataCell(Text(e.telepon)),
                               DataCell(Text(e.alamat)),
-                              DataCell(Text(e.tanggalLahir as String)),
+                              DataCell(Text(formatFullDate(e.tanggalLahir))),
                               DataCell(Text(e.asal)),
-                              DataCell(Text(e.awal as String)),
-                              DataCell(Text(e.akhir as String)),
+                              DataCell(Text(formatShortDate(e.awal))),
+                              DataCell(Text(formatShortDate(e.akhir))),
                               DataCell(Text(e.deskripsi)),
                             ],
                           ),
                         )
                         .toList(),
                   ),
+                ),
+              ),
+              //
+              const SizedBox(height: 80),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                decoration: const BoxDecoration(
+                  border: Border(top: BorderSide(color: Colors.black12)),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "© ${DateTime.now().year} ${Configs.appName}",
+                      style: const TextStyle(fontSize: 13, color: Colors.grey),
+                    ),
+                    const SizedBox(height: 4),
+                    //icon love
+                    const Text(
+                      "Made with ❤️ by Itikaf Tracker Team",
+                      style: TextStyle(fontSize: 11, color: Colors.grey),
+                    ),
+                  ],
                 ),
               ),
             ],

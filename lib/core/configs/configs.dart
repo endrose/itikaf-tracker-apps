@@ -12,6 +12,10 @@ class Configs {
   //input Date Time untuk lasttimenighttimeline
   static final DateTime lastTenNightsStart = DateTime(2026, 3, 20);
 
+  static final DateTime lastTenNightsEnd = DateTime(2026, 3, 31);
+  //year
+  static final int currentYear = DateTime.now().year;
+
   static const String appAuthor = 'ENDROS';
 
   static const String appLicense = 'MIT License';

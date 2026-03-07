@@ -1,15 +1,3 @@
-// {
-//     "id": 5,
-//     "user": "string updated",
-//     "nama": "string updated",
-//     "alamat": "string updated",
-//     "telepon": "1231312",
-//     "tanggalLahir": "2026-03-02T23:15:12.254-06:00",
-//     "asal": "string",
-//     "awal": "2026-03-02T23:15:12.254-06:00",
-//     "akhir": "2026-03-02T23:15:12.254-06:00",
-//     "deskripsi": "string"
-//   }
 class ItikafEntity {
   final int id;
   final String user;

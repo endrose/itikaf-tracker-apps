@@ -20,10 +20,10 @@ class ItikafModels extends ItikafEntity {
     nama: json['nama'],
     alamat: json['alamat'],
     telepon: json['telepon'],
-    tanggalLahir: json['tanggalLahir'],
+    tanggalLahir: DateTime.parse(json['tanggalLahir']),
     asal: json['asal'],
-    awal: json['awal'],
-    akhir: json['akhir'],
+    awal: DateTime.parse(json['awal']),
+    akhir: DateTime.parse(json['akhir']),
     deskripsi: json['deskripsi'],
   );
 
@@ -33,10 +33,10 @@ class ItikafModels extends ItikafEntity {
     'nama': nama,
     'alamat': alamat,
     'telepon': telepon,
-    'tanggalLahir': tanggalLahir,
+    'tanggalLahir': tanggalLahir.toIso8601String(),
     'asal': asal,
-    'awal': awal,
-    'akhir': akhir,
+    'awal': awal.toIso8601String(),
+    'akhir': akhir.toIso8601String(),
     'deskripsi': deskripsi,
   };
 }
