@@ -395,17 +395,13 @@ class _ClockWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DateTime>(
-      stream: Stream.periodic(const Duration(minutes: Configs.refreshPage), (
-        _,
-      ) {
-        return DateTime.now();
-      }),
+      stream: Stream.periodic(
+        const Duration(seconds: 1),
+        (_) => DateTime.now(),
+      ),
+      initialData: DateTime.now(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return const SizedBox();
-
         final now = snapshot.data!;
-
-        //nama harinya itu diambil dari kalender 2026, jadi 10 malam terakhir itu mulai dari tanggal 20 Maret 2026 sampai
 
         const daysOfWeek = [
           "Minggu",
@@ -416,21 +412,19 @@ class _ClockWidget extends StatelessWidget {
           "Jumat",
           "Sabtu",
         ];
-        final formattedDate =
-            "${daysOfWeek[now.weekday % 7]}, ${now.day} ${getMonthAbbreviation(now.month)} ${now.year} "
-            "${now.hour}:${now.minute.toString().padLeft(2, '0')}:"
-            "${now.second.toString().padLeft(2, '0')} WIB";
 
-        // final formattedDate =
-        //     "${now.day} ${getMonthAbbreviation(now.month)} ${now.year} "
-        //     "${now.hour}:${now.minute.toString().padLeft(2, '0')}:"
-        //     "${now.second.toString().padLeft(2, '0')} WIB";
+        final formattedDate =
+            "${daysOfWeek[now.weekday % 7]}, "
+            "${now.day} ${getMonthAbbreviation(now.month)} ${now.year} "
+            "${now.hour.toString().padLeft(2, '0')}:"
+            "${now.minute.toString().padLeft(2, '0')}:"
+            "${now.second.toString().padLeft(2, '0')} WIB";
 
         return Text(
           formattedDate,
           style: TextStyle(
             fontSize: Responsive.isMobile(context) ? 14 : 18,
-            color: Colors.grey[700],
+            color: Colors.greenAccent[700],
           ),
         );
       },
