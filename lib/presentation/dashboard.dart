@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:itikaf_tracker/common/helper/layouts/responsive.dart';
 import 'package:itikaf_tracker/common/helper/utils.dart';
@@ -22,6 +24,7 @@ class _DashboardPageState extends State<DashboardPage> {
   final RemoteBackendServicesImpl service = RemoteBackendServicesImpl();
 
   List<ItikafModels> itikafData = [];
+  Timer? refreshTimer;
 
   String token = '';
 
@@ -31,10 +34,28 @@ class _DashboardPageState extends State<DashboardPage> {
     init();
   }
 
+  @override
+  void dispose() {
+    refreshTimer?.cancel();
+    super.dispose();
+  }
+
   //init async
   Future<void> init() async {
     await login();
     await fetchData();
+    startAutoRefresh();
+  }
+
+  void startAutoRefresh() {
+    refreshTimer = Timer.periodic(const Duration(minutes: 1), (timer) async {
+      await fetchData();
+      print("Auto refresh data...");
+      setState(() {
+        // Update UI after fetching new data
+        SnackBar(content: Text("Data refreshed at ${DateTime.now()}"));
+      });
+    });
   }
 
   //login

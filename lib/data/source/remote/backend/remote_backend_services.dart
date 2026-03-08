@@ -1,10 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:itikaf_tracker/data/models/absen.dart';
 import 'package:itikaf_tracker/data/models/itikaf.dart';
 
 abstract class RemoteBackendServices {
   // http://itikaftracker.somee.com/api/itikaf
   //
   Future<List<ItikafModels>> fetchItikafData();
+  //absen
+  Future<List<AbsenModels>> fetchAbsenData();
+
   //Auth
 
   Future<String> authenticate(String username, String password);
@@ -18,7 +22,7 @@ class RemoteBackendServicesImpl implements RemoteBackendServices {
   RemoteBackendServicesImpl() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: "http://itikaftracker.somee.com/api/",
+        baseUrl: "https://muslim.rsite.net/api/",
         connectTimeout: const Duration(seconds: 10),
       ),
     );
@@ -69,6 +73,23 @@ class RemoteBackendServicesImpl implements RemoteBackendServices {
       throw Exception('Failed to load itikaf data');
     } catch (e) {
       throw Exception('Error fetching itikaf data: $e');
+    }
+  }
+
+  @override
+  Future<List<AbsenModels>> fetchAbsenData() async {
+    // TODO: implement fetchAbsenData
+    try {
+      final response = await _dio.get('/absen');
+
+      if (response.statusCode == 200) {
+        final List data = response.data;
+        return data.map((json) => AbsenModels.fromJson(json)).toList();
+      }
+
+      throw Exception('Failed to load absen data');
+    } catch (e) {
+      throw Exception('Error fetching absen data: $e');
     }
   }
 }
