@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:itikaf_tracker/data/models/absen.dart';
 
 class AbsensiTable extends StatelessWidget {
-  const AbsensiTable({super.key});
+  final List<AbsenModels> absenData;
+
+  const AbsensiTable({super.key, required this.absenData});
 
   @override
   Widget build(BuildContext context) {
@@ -11,37 +14,19 @@ class AbsensiTable extends StatelessWidget {
         DataColumn(label: Text("Kehadiran")),
         DataColumn(label: Text("Tanggal Waktu")),
       ],
-      rows: const [
-        DataRow(
-          cells: [
-            DataCell(Text("Endros")),
-            DataCell(Text("Hadir")),
-            DataCell(Text("19 Mar 2026 23:45 WIB")),
-          ],
-        ),
 
-        DataRow(
-          cells: [
-            DataCell(Text("Ahmad")),
-            DataCell(Text("Hadir")),
-            DataCell(Text("19 Mar 2026 19:45 WIB")),
-          ],
-        ),
-        DataRow(
-          cells: [
-            DataCell(Text("Rizki")),
-            DataCell(Text("Hadir")),
-            DataCell(Text("19 Mar 2026 20:10 WIB")),
-          ],
-        ),
-        DataRow(
-          cells: [
-            DataCell(Text("Fahmi")),
-            DataCell(Text("Terlambat")),
-            DataCell(Text("19 Mar 2026 20:30 WIB")),
-          ],
-        ),
-      ],
+      //ganti dengan itikafData yang diambil dari api
+      rows: absenData
+          .map(
+            (e) => DataRow(
+              cells: [
+                DataCell(Text(e.nama!)),
+                DataCell(Text(e.kehadiran!)),
+                DataCell(Text(e.waktu as String)),
+              ],
+            ),
+          )
+          .toList(),
     );
   }
 }

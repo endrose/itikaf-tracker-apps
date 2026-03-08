@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:itikaf_tracker/common/helper/layouts/responsive.dart';
 import 'package:itikaf_tracker/common/helper/utils.dart';
 import 'package:itikaf_tracker/core/configs/configs.dart';
+import 'package:itikaf_tracker/data/models/absen.dart';
 import 'package:itikaf_tracker/data/models/itikaf.dart';
 import 'package:itikaf_tracker/data/source/remote/backend/remote_backend_services.dart';
 import 'package:itikaf_tracker/presentation/widgets/absensi_section.dart';
@@ -24,6 +25,7 @@ class _DashboardPageState extends State<DashboardPage> {
   final RemoteBackendServicesImpl service = RemoteBackendServicesImpl();
 
   List<ItikafModels> itikafData = [];
+  List<AbsenModels> absenData = [];
   Timer? refreshTimer;
 
   String token = '';
@@ -78,9 +80,11 @@ class _DashboardPageState extends State<DashboardPage> {
   Future<void> fetchData() async {
     try {
       final data = await service.fetchItikafData();
+      final dataAbsen = await service.fetchAbsenData();
 
       setState(() {
         itikafData = data;
+        absenData = dataAbsen;
       });
     } catch (e) {
       print("Error fetching data: $e");
@@ -150,6 +154,78 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
 
+              const SizedBox(height: 20),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
+                ),
+                //tambahkan deskripsi untuk khubahtul hajjah
+                child: Column(
+                  children: [
+                    Center(
+                      child: Text(
+                        "Khutbahtul Hajjah",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+
+                    const Text(
+                      Configs.khutbahtulHajah,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      Configs.khubahtulHajjahDescription
+                          .map((e) => "$e\n")
+                          .join(),
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    Center(
+                      child: Text(
+                        "Doa Malam Lailatul Qadar",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      Configs.doaMalamLailatulQadar,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+                    //style itallic
+                    Text(
+                      Configs.deskripsiDoaMalamLailatulQadar,
+
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                ),
+              ),
               const SizedBox(height: 20),
 
               /// SUMMARY CARDS
@@ -243,27 +319,30 @@ class _DashboardPageState extends State<DashboardPage> {
               /// CHART + ABSENSI
               Responsive(
                 mobile: Column(
-                  children: const [
+                  children: [
                     ChartSection(),
                     SizedBox(height: 20),
-                    AbsensiSection(),
+                    AbsensiSection(absenData: absenData),
                   ],
                 ),
 
                 tablet: Column(
-                  children: const [
+                  children: [
                     ChartSection(),
                     SizedBox(height: 20),
-                    AbsensiSection(),
+                    AbsensiSection(absenData: absenData),
                   ],
                 ),
 
                 desktop: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Expanded(flex: 2, child: ChartSection()),
                     SizedBox(width: 20),
-                    Expanded(flex: 1, child: AbsensiSection()),
+                    Expanded(
+                      flex: 1,
+                      child: AbsensiSection(absenData: absenData),
+                    ),
                   ],
                 ),
               ),
@@ -316,7 +395,9 @@ class _ClockWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DateTime>(
-      stream: Stream.periodic(const Duration(seconds: 1), (_) {
+      stream: Stream.periodic(const Duration(minutes: Configs.refreshPage), (
+        _,
+      ) {
         return DateTime.now();
       }),
       builder: (context, snapshot) {
