@@ -14,13 +14,16 @@ class LastTenNightsTimeline extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
+    // ambil jumlah hari dalam bulan ini
+    final totalDays = DateTime(year, start.month + 1, 0).day;
+
     return Column(
       children: [
         SizedBox(
           height: 90,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 31,
+            itemCount: totalDays,
             itemBuilder: (context, index) {
               final date = start.add(Duration(days: index));
 
