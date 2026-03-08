@@ -8,7 +8,7 @@ class ChartSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 260,
+      height: 320,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -22,6 +22,8 @@ class ChartSection extends StatelessWidget {
             Configs.asal,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
+          Divider(thickness: 1, color: Colors.black12),
+
           SizedBox(height: 20),
           Expanded(child: PesertaChart()),
         ],

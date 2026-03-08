@@ -7,9 +7,11 @@ class Configs {
   static const String totalTidakHadir = "Total Tidak Hadir";
   static const String timeLine = "Timeline Itikaf";
   static const String peserta = "Daftar Peserta";
-  static const String absensi = "Absensi Peserta Itikaf";
+  static const String absensi = "Absensi Peserta";
   static const String asal = "Asal Peserta Itikaf";
   static final String lastTenNights = "10 Malam Terakhir Ramadhan $currentYear";
+
+  
 
   //input Date Time untuk lasttimenighttimeline
   static final DateTime lastTenNightsStart = DateTime(2026, 3, 10);

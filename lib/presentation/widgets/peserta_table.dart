@@ -19,9 +19,11 @@ class PesertaTable extends StatelessWidget {
 
       //filter nya
       child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
+        //ganti bisa di scroll kebawah dan ke samping
         child: DataTable(
           columns: const [
+            //no
+            DataColumn(label: Text("#")),
             DataColumn(label: Text("Nama")),
             DataColumn(label: Text("Telepon")),
             DataColumn(label: Text("Alamat")),
@@ -37,6 +39,7 @@ class PesertaTable extends StatelessWidget {
               .map(
                 (e) => DataRow(
                   cells: [
+                    DataCell(Text("${itikafData.indexOf(e) + 1}")),
                     DataCell(Text(e.nama)),
                     DataCell(Text(e.telepon)),
                     DataCell(Text(e.alamat)),

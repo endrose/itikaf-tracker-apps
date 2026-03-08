@@ -1,32 +1,66 @@
-import 'package:flutter/material.dart';
-import 'package:itikaf_tracker/data/models/absen.dart';
+// import 'package:flutter/material.dart';
+// import 'package:itikaf_tracker/common/helper/utils.dart';
+// import 'package:itikaf_tracker/data/models/absen.dart';
 
-class AbsensiTable extends StatelessWidget {
-  final List<AbsenModels> absenData;
+// class AbsensiSection extends StatelessWidget {
+//   final List<AbsenModels> absenData;
 
-  const AbsensiTable({super.key, required this.absenData});
+//   const AbsensiSection({super.key, required this.absenData});
 
-  @override
-  Widget build(BuildContext context) {
-    return DataTable(
-      columns: const [
-        DataColumn(label: Text("Nama")),
-        DataColumn(label: Text("Kehadiran")),
-        DataColumn(label: Text("Tanggal Waktu")),
-      ],
+//   @override
+//   Widget build(BuildContext context) {
+//     if (absenData.isEmpty) {
+//       return const Card(
+//         child: Padding(
+//           padding: EdgeInsets.all(20),
+//           child: Center(child: Text("Belum ada data absensi")),
+//         ),
+//       );
+//     }
 
-      //ganti dengan itikafData yang diambil dari api
-      rows: absenData
-          .map(
-            (e) => DataRow(
-              cells: [
-                DataCell(Text(e.nama!)),
-                DataCell(Text(e.kehadiran!)),
-                DataCell(Text(e.waktu as String)),
-              ],
-            ),
-          )
-          .toList(),
-    );
-  }
-}
+//     return Card(
+//       child: Padding(
+//         padding: const EdgeInsets.all(16),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             const Text(
+//               "Absensi Peserta",
+//               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//             ),
+
+//             const SizedBox(height: 12),
+
+//             ListView.builder(
+//               shrinkWrap: true,
+//               physics: const NeverScrollableScrollPhysics(),
+//               itemCount: absenData.length,
+//               itemBuilder: (context, index) {
+//                 final item = absenData[index];
+
+//                 return ListTile(
+//                   leading: const Icon(Icons.person),
+
+//                   title: Text(item.nama),
+
+//                   //tanggal  gunakan item.tanggal dan bunga
+//                   subtitle: Text(
+//                     formatFullDateWithTime(item.waktu),
+//                     style: const TextStyle(color: Colors.grey),
+//                   ),
+
+//                   trailing: Chip(
+//                     label: Text(item.kehadiran),
+//                     backgroundColor: item.kehadiran.toLowerCase() == "Hadir"
+//                         ? Colors.green
+//                         : Colors.red,
+//                   ),
+//                 );
+//               },
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
