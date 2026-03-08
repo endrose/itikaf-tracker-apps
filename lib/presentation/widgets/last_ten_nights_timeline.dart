@@ -27,10 +27,19 @@ class LastTenNightsTimeline extends StatelessWidget {
               final isLastTen = date.day >= 10 && date.day <= 19;
               final isOddNight = isLastTen && (date.day % 2 == 1);
 
+              final nowDate = DateTime.now();
+              final isPast = date.isBefore(nowDate);
+
               Color bgColor = Colors.grey.shade200;
 
               if (isLastTen) {
                 bgColor = isOddNight ? Colors.orange : Colors.blue.shade200;
+              }
+
+              if (nowDate.year == year &&
+                  date.month == nowDate.month &&
+                  date.day == nowDate.day) {
+                bgColor = Colors.greenAccent.shade200;
               }
 
               return Container(
@@ -74,6 +83,8 @@ Widget buildLegend() {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        _legendItem(Colors.greenAccent.shade200, "Hari Ini"),
+        const SizedBox(width: 20),
         _legendItem(Colors.orange, "Malam Ganjil"),
         const SizedBox(width: 20),
         _legendItem(Colors.blue.shade200, "Malam Genap"),
