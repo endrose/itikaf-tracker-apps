@@ -303,10 +303,26 @@ class _ClockWidget extends StatelessWidget {
 
         final now = snapshot.data!;
 
+        //nama harinya itu diambil dari kalender 2026, jadi 10 malam terakhir itu mulai dari tanggal 20 Maret 2026 sampai
+
+        const daysOfWeek = [
+          "Minggu",
+          "Senin",
+          "Selasa",
+          "Rabu",
+          "Kamis",
+          "Jumat",
+          "Sabtu",
+        ];
         final formattedDate =
-            "${now.day} ${getMonthAbbreviation(now.month)} ${now.year} "
+            "${daysOfWeek[now.weekday % 7]}, ${now.day} ${getMonthAbbreviation(now.month)} ${now.year} "
             "${now.hour}:${now.minute.toString().padLeft(2, '0')}:"
             "${now.second.toString().padLeft(2, '0')} WIB";
+
+        // final formattedDate =
+        //     "${now.day} ${getMonthAbbreviation(now.month)} ${now.year} "
+        //     "${now.hour}:${now.minute.toString().padLeft(2, '0')}:"
+        //     "${now.second.toString().padLeft(2, '0')} WIB";
 
         return Text(
           formattedDate,

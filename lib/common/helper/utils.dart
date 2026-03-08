@@ -31,6 +31,21 @@ String formatShortDate(DateTime date) {
   return "${date.day} ${getMonthAbbreviation(date.month)} ${date.year}";
 }
 
+/// Format: Minggu, 9 Mar 2026 Jam 20:30 WIB
+String formatFullDateWithDayAndTime(DateTime date) {
+  const daysOfWeek = [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu",
+  ];
+  String dayName = daysOfWeek[date.weekday % 7];
+  return "$dayName, ${date.day} ${getMonthAbbreviation(date.month)} ${date.year} Jam ${date.hour}:${date.minute.toString().padLeft(2, '0')} WIB";
+}
+
 /// Format: 09/03/2026
 String formatNumericDate(DateTime date) {
   String day = date.day.toString().padLeft(2, '0');

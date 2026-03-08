@@ -20,7 +20,7 @@ class Configs {
 
   static const String appAuthor = 'ENDROS';
   static const String username = 'admin';
-  static const String password = 'admin123';
+  static const String password = '123';
 
   static const String appLicense = 'MIT License';
 
