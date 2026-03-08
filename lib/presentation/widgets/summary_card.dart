@@ -12,19 +12,34 @@ class SummaryCard extends StatelessWidget {
     required this.color,
   });
 
+  IconData getIcon() {
+    if (title == "Total Peserta Itikaf") {
+      return Icons.people;
+    } else if (title == "Total Hadir") {
+      return Icons.check_circle;
+    } else {
+      return Icons.cancel;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 110,
-      padding: const EdgeInsets.all(16),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(12),
       ),
+
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Icon(getIcon(), color: Colors.white70, size: 28),
+
+          const SizedBox(height: 8),
+
           Text(
             value,
             style: const TextStyle(
@@ -33,9 +48,12 @@ class SummaryCard extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          const SizedBox(height: 5),
+
+          const SizedBox(height: 4),
+
           Text(
             title,
+            textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 14, color: Colors.white70),
           ),
         ],

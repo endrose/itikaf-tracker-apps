@@ -4,11 +4,10 @@ import 'package:itikaf_tracker/common/helper/utils.dart';
 import 'package:itikaf_tracker/core/configs/configs.dart';
 import 'package:itikaf_tracker/data/models/itikaf.dart';
 import 'package:itikaf_tracker/data/source/remote/backend/remote_backend_services.dart';
-import 'package:itikaf_tracker/presentation/widgets/absen_table.dart';
 import 'package:itikaf_tracker/presentation/widgets/absensi_section.dart';
 import 'package:itikaf_tracker/presentation/widgets/chart_section.dart';
+import 'package:itikaf_tracker/presentation/widgets/footer_dashboard.dart';
 import 'package:itikaf_tracker/presentation/widgets/last_ten_nights_timeline.dart';
-import 'package:itikaf_tracker/presentation/widgets/peserta_chart.dart';
 import 'package:itikaf_tracker/presentation/widgets/peserta_table.dart';
 import 'package:itikaf_tracker/presentation/widgets/summary_card.dart';
 
@@ -42,8 +41,8 @@ class _DashboardPageState extends State<DashboardPage> {
   Future<void> login() async {
     try {
       final token = await service.authenticate(
-        'admin',
-        '123',
+        Configs.username,
+        Configs.password,
       ); // Ganti dengan kredensial yang valid
 
       this.token = token;
@@ -136,6 +135,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Responsive(
                 /// MOBILE
                 mobile: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: const [
                     SummaryCard(
                       title: Configs.totalPeserta,
@@ -158,32 +158,30 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
 
                 /// TABLET
-                tablet: Column(
-                  children: [
-                    Row(
-                      children: const [
-                        Expanded(
-                          child: SummaryCard(
-                            title: Configs.totalPeserta,
-                            value: "120",
-                            color: Colors.blue,
-                          ),
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: SummaryCard(
-                            title: Configs.totalHadir,
-                            value: "60",
-                            color: Colors.greenAccent,
-                          ),
-                        ),
-                      ],
+                tablet: Row(
+                  children: const [
+                    Expanded(
+                      child: SummaryCard(
+                        title: Configs.totalPeserta,
+                        value: "120",
+                        color: Colors.blue,
+                      ),
                     ),
-                    const SizedBox(height: 12),
-                    const SummaryCard(
-                      title: Configs.totalTidakHadir,
-                      value: "25",
-                      color: Colors.redAccent,
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: SummaryCard(
+                        title: Configs.totalHadir,
+                        value: "60",
+                        color: Colors.greenAccent,
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: SummaryCard(
+                        title: Configs.totalTidakHadir,
+                        value: "25",
+                        color: Colors.redAccent,
+                      ),
                     ),
                   ],
                 ),
@@ -282,27 +280,7 @@ class _DashboardPageState extends State<DashboardPage> {
               PesertaTable(itikafData: itikafData),
               //
               const SizedBox(height: 80),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                decoration: const BoxDecoration(
-                  border: Border(top: BorderSide(color: Colors.black12)),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      "© ${DateTime.now().year} ${Configs.appName}",
-                      style: const TextStyle(fontSize: 13, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 4),
-                    //icon love
-                    const Text(
-                      Configs.footerName,
-                      style: TextStyle(fontSize: 11, color: Colors.grey),
-                    ),
-                  ],
-                ),
-              ),
+              FooterDashboard(),
             ],
           ),
         ),

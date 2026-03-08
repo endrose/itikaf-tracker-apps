@@ -19,6 +19,8 @@ class Configs {
   static final int currentYear = DateTime.now().year;
 
   static const String appAuthor = 'ENDROS';
+  static const String username = 'admin';
+  static const String password = 'admin123';
 
   static const String appLicense = 'MIT License';
 
