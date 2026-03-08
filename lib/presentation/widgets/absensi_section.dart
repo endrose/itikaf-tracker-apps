@@ -27,7 +27,7 @@ class AbsensiSection extends StatelessWidget {
           const SizedBox(height: 16),
           Expanded(
             child: SingleChildScrollView(
-              child: AbcssensiTable(
+              child: AbsensiTable(
                 //
                 absenData: absenData,
               ),
