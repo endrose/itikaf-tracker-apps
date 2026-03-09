@@ -1,3 +1,6 @@
+![Flutter](https://img.shields.io/badge/Flutter-3.x-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 # 🕌 Muslim Tracker
 
 A Flutter application to help **manage and monitor Muslim participants** in mosques during the last ten nights of Ramadan.
@@ -32,7 +35,7 @@ https://docs.flutter.dev/get-started/install
 Clone the repository:
 
 ```
-git clone https://github.com/yourusername/Muslim_tracker.git
+git clone https://github.com/endrose/itikaf-tracker-apps.git
 ```
 
 Go to project directory:
