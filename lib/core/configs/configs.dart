@@ -1,5 +1,5 @@
 class Configs {
-  static const String appName = 'Itikaf Tracker';
+  static const String appName = 'Muslim Tracker';
   static const String appDescription =
       'Aplikasi untuk memantau kegiatan itikaf selama bulan Ramadan.';
   static const String totalPeserta = "Total Peserta Itikaf";
@@ -10,8 +10,6 @@ class Configs {
   static const String absensi = "Absensi Peserta";
   static const String asal = "Asal Peserta Itikaf";
   static final String lastTenNights = "10 Malam Terakhir Ramadhan $currentYear";
-
-  
 
   //input Date Time untuk lasttimenighttimeline
   static final DateTime lastTenNightsStart = DateTime(2026, 3, 10);

@@ -19,39 +19,39 @@ class PesertaTable extends StatelessWidget {
 
       //filter nya
       child: SingleChildScrollView(
-        //ganti bisa di scroll kebawah dan ke samping
-        child: DataTable(
-          columns: const [
-            //no
-            DataColumn(label: Text("#")),
-            DataColumn(label: Text("Nama")),
-            DataColumn(label: Text("Telepon")),
-            DataColumn(label: Text("Alamat")),
-            DataColumn(label: Text("Tanggal Lahir")),
-            DataColumn(label: Text("Asal")),
-            DataColumn(label: Text("Awal")),
-            DataColumn(label: Text("Akhir")),
-            DataColumn(label: Text("Deskripsi")),
-          ],
-
-          //ganti dengan itikafData yang diambil dari api
-          rows: itikafData
-              .map(
-                (e) => DataRow(
-                  cells: [
-                    DataCell(Text("${itikafData.indexOf(e) + 1}")),
-                    DataCell(Text(e.nama)),
-                    DataCell(Text(e.telepon)),
-                    DataCell(Text(e.alamat)),
-                    DataCell(Text(formatFullDate(e.tanggalLahir))),
-                    DataCell(Text(e.asal)),
-                    DataCell(Text(formatShortDate(e.awal))),
-                    DataCell(Text(formatShortDate(e.akhir))),
-                    DataCell(Text(e.deskripsi)),
-                  ],
-                ),
-              )
-              .toList(),
+        scrollDirection: Axis.horizontal,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: DataTable(
+            columns: const [
+              DataColumn(label: Text("#")),
+              DataColumn(label: Text("Nama")),
+              DataColumn(label: Text("Telepon")),
+              DataColumn(label: Text("Alamat")),
+              DataColumn(label: Text("Tanggal Lahir")),
+              DataColumn(label: Text("Asal")),
+              DataColumn(label: Text("Awal")),
+              DataColumn(label: Text("Akhir")),
+              DataColumn(label: Text("Deskripsi")),
+            ],
+            rows: itikafData
+                .map(
+                  (e) => DataRow(
+                    cells: [
+                      DataCell(Text("${itikafData.indexOf(e) + 1}")),
+                      DataCell(Text(e.nama)),
+                      DataCell(Text(e.telepon)),
+                      DataCell(Text(e.alamat)),
+                      DataCell(Text(formatFullDate(e.tanggalLahir))),
+                      DataCell(Text(e.asal)),
+                      DataCell(Text(formatShortDate(e.awal))),
+                      DataCell(Text(formatShortDate(e.akhir))),
+                      DataCell(Text(e.deskripsi)),
+                    ],
+                  ),
+                )
+                .toList(),
+          ),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:itikaf_tracker/presentation/dashboard.dart';
+import 'package:itikaf_tracker/presentation/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,8 +17,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: DashboardPage(),
-      routes: {'/dashboard': (context) => const DashboardPage()},
+      home: LoginPage(),
+      routes: {
+        '/dashboard': (context) => const DashboardPage(),
+        '/login': (context) => const LoginPage(),
+      },
     );
   }
 }
