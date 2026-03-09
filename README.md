@@ -41,7 +41,7 @@ git clone https://github.com/endrose/itikaf-tracker-apps.git
 Go to project directory:
 
 ```
-cd Muslim_tracker
+cd itikaf_tracker
 ```
 
 Install dependencies:
@@ -60,9 +60,10 @@ flutter run
 
 # 🛠 Built With
 
-* Flutter
-* Dart
-* FL Chart
+- Flutter
+- Dart
+- FL Chart
+- .NET API
 
 ---
 
@@ -70,10 +71,10 @@ flutter run
 
 This project is licensed under the **MIT License**, which means you are free to:
 
-* Use
-* Modify
-* Distribute
-* Use commercially
+- Use  
+- Modify  
+- Distribute  
+- Use commercially  
 
 See the full license here:
 
@@ -83,19 +84,19 @@ https://opensource.org/licenses/MIT
 
 # 🕌 Ethical Usage Agreement
 
-Although this project is released under the **MIT License**, this project was created to support **masjid activities and Muslim programs**.
+Although this project is released under the **MIT License**, this project was created to support **mosque activities and Itikaf programs**.
 
 We kindly ask users to respect the spirit of this project.
 
 Please read the ethical usage agreement:
 
-https://github.com/yourusername/Muslim_tracker/blob/main/ETHICAL_USE.md
+https://github.com/endrose/itikaf-tracker-apps/blob/main/ETHICAL_USE.md
 
-Summary:
+### Summary
 
-* Do not exploit this project purely for profit.
-* Do not sell this project as a paid mosque system.
-* Use it to support community, mosques, and Islamic activities.
+- Do not exploit this project purely for profit.
+- Do not sell this project as a paid mosque system.
+- Use it to support community, mosques, and Islamic activities.
 
 This project is intended as **a contribution to the ummah and an amal jariyah effort**.
 
@@ -115,7 +116,7 @@ If you would like to improve the project:
 
 # 🌙 Motivation
 
-This project was built as a small effort to support **Ramadan Muslim activities** and help mosque committees manage participants easily.
+This project was built as a small effort to support **Ramadan Itikaf activities** and help mosque committees manage participants more easily.
 
 May this project become **beneficial knowledge and ongoing charity (amal jariyah)**.
 
@@ -123,9 +124,9 @@ May this project become **beneficial knowledge and ongoing charity (amal jariyah
 
 # 📌 Author
 
-Developed with sincerity for the community.
+Created by **Endros**
 
-If this project helps your mosque, please consider sharing improvements so others can benefit as well.
+This project is dedicated as a contribution to the community and as an effort of **amal jariyah for the creator and their parents**.
 
 ---
 
@@ -133,5 +134,5 @@ If this project helps your mosque, please consider sharing improvements so other
 
 If you find this project useful:
 
-⭐ Star the repository
-🤝 Share with your mosque community
+⭐ Star the repository  
+🤝 Share it with your mosque community
