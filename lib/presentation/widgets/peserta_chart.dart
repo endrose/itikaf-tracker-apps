@@ -1,11 +1,43 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:itikaf_tracker/data/models/itikaf.dart';
 
 class PesertaChart extends StatelessWidget {
-  const PesertaChart({super.key});
+  final List<ItikafModels> itikafData;
+
+  const PesertaChart({super.key, required this.itikafData});
 
   @override
   Widget build(BuildContext context) {
+    // hitung jumlah peserta berdasarkan asal
+    final Map<String, int> asalCount = {};
+    //random color
+
+    for (var item in itikafData) {
+      final asal = item.asal ?? "Unknown";
+
+      if (asalCount.containsKey(asal)) {
+        asalCount[asal] = asalCount[asal]! + 1;
+      } else {
+        asalCount[asal] = 1;
+      }
+    }
+
+    final cities = asalCount.keys.toList();
+    final counts = asalCount.values.toList();
+
+    Color randomColor(int index) {
+      final random = Random(index);
+      return Color.fromARGB(
+        255,
+        random.nextInt(256),
+        random.nextInt(256),
+        random.nextInt(256),
+      );
+    }
+
     return BarChart(
       BarChartData(
         borderData: FlBorderData(show: false),
@@ -29,8 +61,6 @@ class PesertaChart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: (value, meta) {
-                const cities = ["Jakarta", "Bekasi", "Bogor", "Bandung"];
-
                 if (value.toInt() >= 0 && value.toInt() < cities.length) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 6),
@@ -47,28 +77,20 @@ class PesertaChart extends StatelessWidget {
           ),
         ),
 
-        barGroups: [
-          BarChartGroupData(
-            x: 0,
-            barRods: [BarChartRodData(toY: 40, width: 18, color: Colors.blue)],
-          ),
-          BarChartGroupData(
-            x: 1,
-            barRods: [BarChartRodData(toY: 20, width: 18, color: Colors.green)],
-          ),
-          BarChartGroupData(
-            x: 2,
+        barGroups: List.generate(
+          counts.length,
+          (index) => BarChartGroupData(
+            x: index,
             barRods: [
-              BarChartRodData(toY: 10, width: 18, color: Colors.orange),
+              BarChartRodData(
+                toY: counts[index].toDouble(),
+                width: 18,
+                color: randomColor(index),
+                borderRadius: BorderRadius.circular(4),
+              ),
             ],
           ),
-          BarChartGroupData(
-            x: 3,
-            barRods: [
-              BarChartRodData(toY: 15, width: 18, color: Colors.purple),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }

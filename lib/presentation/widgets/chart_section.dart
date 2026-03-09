@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:itikaf_tracker/core/configs/configs.dart';
+import 'package:itikaf_tracker/data/models/itikaf.dart';
 import 'package:itikaf_tracker/presentation/widgets/peserta_chart.dart';
 
 class ChartSection extends StatelessWidget {
-  const ChartSection({super.key});
+  final List<ItikafModels> itikafData;
+
+  const ChartSection({super.key, required this.itikafData});
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +20,15 @@ class ChartSection extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
+        children: [
+          const Text(
             Configs.asal,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          Divider(thickness: 1, color: Colors.black12),
+          const Divider(thickness: 1, color: Colors.black12),
 
-          SizedBox(height: 20),
-          Expanded(child: PesertaChart()),
+          const SizedBox(height: 20),
+          Expanded(child: PesertaChart(itikafData: itikafData)),
         ],
       ),
     );

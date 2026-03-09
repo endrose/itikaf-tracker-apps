@@ -95,7 +95,11 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     final year = DateTime.now().year;
 
-    final List<ItikafModels> itikaf = [];
+    final totalPeserta = itikafData.length;
+
+    final totalHadir = absenData.where((e) => e.kehadiran == "Y").length;
+
+    final totalTidakHadir = absenData.where((e) => e.kehadiran != "Y").length;
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -233,34 +237,34 @@ class _DashboardPageState extends State<DashboardPage> {
                 /// MOBILE
                 mobile: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: const [
+                  children: [
                     SummaryCard(
                       title: Configs.totalPeserta,
-                      value: "120",
+                      value: totalPeserta.toString(),
                       color: Colors.blue,
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     SummaryCard(
                       title: Configs.totalHadir,
-                      value: "60",
-                      color: Colors.greenAccent,
+                      value: totalHadir.toString(),
+                      color: Colors.green,
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     SummaryCard(
                       title: Configs.totalTidakHadir,
-                      value: "25",
-                      color: Colors.redAccent,
+                      value: totalTidakHadir.toString(),
+                      color: Colors.red,
                     ),
                   ],
                 ),
 
                 /// TABLET
                 tablet: Row(
-                  children: const [
+                  children: [
                     Expanded(
                       child: SummaryCard(
                         title: Configs.totalPeserta,
-                        value: "120",
+                        value: totalPeserta.toString(),
                         color: Colors.blue,
                       ),
                     ),
@@ -268,7 +272,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     Expanded(
                       child: SummaryCard(
                         title: Configs.totalHadir,
-                        value: "60",
+                        value: totalHadir.toString(),
                         color: Colors.greenAccent,
                       ),
                     ),
@@ -276,7 +280,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     Expanded(
                       child: SummaryCard(
                         title: Configs.totalTidakHadir,
-                        value: "25",
+                        value: totalTidakHadir.toString(),
                         color: Colors.redAccent,
                       ),
                     ),
@@ -285,27 +289,27 @@ class _DashboardPageState extends State<DashboardPage> {
 
                 /// DESKTOP
                 desktop: Row(
-                  children: const [
+                  children: [
                     Expanded(
                       child: SummaryCard(
                         title: Configs.totalPeserta,
-                        value: "120",
+                        value: totalPeserta.toString(),
                         color: Colors.blue,
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Expanded(
                       child: SummaryCard(
                         title: Configs.totalHadir,
-                        value: "60",
+                        value: totalHadir.toString(),
                         color: Colors.greenAccent,
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Expanded(
                       child: SummaryCard(
                         title: Configs.totalTidakHadir,
-                        value: "25",
+                        value: totalTidakHadir.toString(),
                         color: Colors.redAccent,
                       ),
                     ),
@@ -320,7 +324,7 @@ class _DashboardPageState extends State<DashboardPage> {
               Responsive(
                 mobile: Column(
                   children: [
-                    ChartSection(),
+                    ChartSection(itikafData: itikafData),
                     SizedBox(height: 20),
                     AbsensiSection(absenData: absenData),
                   ],
@@ -328,7 +332,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
                 tablet: Column(
                   children: [
-                    ChartSection(),
+                    ChartSection(itikafData: itikafData),
                     SizedBox(height: 20),
                     AbsensiSection(absenData: absenData),
                   ],
@@ -337,7 +341,10 @@ class _DashboardPageState extends State<DashboardPage> {
                 desktop: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(flex: 2, child: ChartSection()),
+                    Expanded(
+                      flex: 2,
+                      child: ChartSection(itikafData: itikafData),
+                    ),
                     SizedBox(width: 20),
                     Expanded(
                       flex: 1,
