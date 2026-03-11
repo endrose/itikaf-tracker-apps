@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:itikaf_tracker/common/helper/layouts/responsive.dart';
 import 'package:itikaf_tracker/presentation/custom_text_field.dart';
 
 class LoginForm extends StatefulWidget {
@@ -89,16 +91,23 @@ class _LoginFormState extends State<LoginForm> {
 
           const SizedBox(height: 20.0),
 
-          // const Row(
-          //   children: [
-          //     Expanded(child: Divider()),
-          //     Padding(
-          //       padding: EdgeInsets.symmetric(horizontal: 8),
-          //       child: Text("atau"),
-          //     ),
-          //     Expanded(child: Divider()),
-          //   ],
-          // ),
+          //klo dia versi mobile saja muncul ini
+          if (Responsive.isMobile(context))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  hoverColor: Colors.transparent,
+                  onTap: () {
+                    Navigator.pushNamed(context, "/dashboard");
+                  },
+                  child: const Text(
+                    "Go to Dashboard Itikaf",
+                    style: TextStyle(color: Colors.blue, fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
 
           // const SizedBox(height: 20.0),
         ],
