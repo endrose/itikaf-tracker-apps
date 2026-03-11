@@ -13,7 +13,7 @@ class PesertaTable extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.15),
         borderRadius: BorderRadius.circular(12),
       ),
 
@@ -24,29 +24,134 @@ class PesertaTable extends StatelessWidget {
           scrollDirection: Axis.vertical,
           child: DataTable(
             columns: const [
-              DataColumn(label: Text("#")),
-              DataColumn(label: Text("Nama")),
-              DataColumn(label: Text("Telepon")),
-              DataColumn(label: Text("Alamat")),
-              DataColumn(label: Text("Tanggal Lahir")),
-              DataColumn(label: Text("Asal")),
-              DataColumn(label: Text("Awal")),
-              DataColumn(label: Text("Akhir")),
-              DataColumn(label: Text("Deskripsi")),
+              DataColumn(
+                label: Text(
+                  "#",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  "Nama",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  "Telepon",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  "Alamat",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  "Tanggal Lahir",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  "Asal",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  "Awal",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  "Akhir",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  "Deskripsi",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ],
             rows: itikafData
                 .map(
                   (e) => DataRow(
                     cells: [
-                      DataCell(Text("${itikafData.indexOf(e) + 1}")),
-                      DataCell(Text(e.nama)),
-                      DataCell(Text(e.telepon)),
-                      DataCell(Text(e.alamat)),
-                      DataCell(Text(formatFullDate(e.tanggalLahir))),
-                      DataCell(Text(e.asal)),
-                      DataCell(Text(formatShortDate(e.awal))),
-                      DataCell(Text(formatShortDate(e.akhir))),
-                      DataCell(Text(e.deskripsi)),
+                      DataCell(
+                        Text(
+                          "${itikafData.indexOf(e) + 1}",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      DataCell(
+                        Text(e.nama, style: TextStyle(color: Colors.white)),
+                      ),
+                      DataCell(
+                        Text(e.telepon, style: TextStyle(color: Colors.white)),
+                      ),
+                      DataCell(
+                        Text(e.alamat, style: TextStyle(color: Colors.white)),
+                      ),
+                      DataCell(
+                        Text(
+                          formatFullDate(e.tanggalLahir),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      DataCell(
+                        Text(e.asal, style: TextStyle(color: Colors.white)),
+                      ),
+                      DataCell(
+                        Text(
+                          formatShortDate(e.awal),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          formatShortDate(e.akhir),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      DataCell(
+                        Text(
+                          e.deskripsi,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
                     ],
                   ),
                 )

@@ -16,10 +16,16 @@ class AbsensiSection extends StatelessWidget {
     }).toList();
 
     if (filteredData.isEmpty) {
-      return const Card(
+      return Card(
+        color: Colors.white.withOpacity(0.15),
         child: Padding(
           padding: EdgeInsets.all(20),
-          child: Center(child: Text("Belum ada data absensi")),
+          child: Center(
+            child: Text(
+              "Belum ada data absensi",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
         ),
       );
     }
@@ -27,14 +33,24 @@ class AbsensiSection extends StatelessWidget {
     return SizedBox(
       height: 320, // tinggi card tetap
       child: Card(
+        elevation: 0,
+        color: Colors.white.withOpacity(0.15),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: Colors.white.withOpacity(0.2), width: 1),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                Configs.absensi,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                "${Configs.absensi}",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
 
               const Divider(thickness: 1, color: Colors.black12),
@@ -55,7 +71,13 @@ class AbsensiSection extends StatelessWidget {
                             : Colors.red,
                       ),
 
-                      title: Text(item.nama.isNotEmpty ? item.nama : "-"),
+                      title: Text(
+                        item.nama.isNotEmpty ? item.nama : "-",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
 
                       subtitle: Text(
                         item.waktu != null

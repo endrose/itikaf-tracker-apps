@@ -14,7 +14,7 @@ class ChartSection extends StatelessWidget {
       height: 320,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.15),
         borderRadius: BorderRadius.circular(12),
         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5)],
       ),
@@ -23,9 +23,13 @@ class ChartSection extends StatelessWidget {
         children: [
           const Text(
             Configs.asal,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
-          const Divider(thickness: 1, color: Colors.black12),
+          Divider(thickness: 1, color: Colors.white.withOpacity(0.5)),
 
           const SizedBox(height: 20),
           Expanded(child: PesertaChart(itikafData: itikafData)),

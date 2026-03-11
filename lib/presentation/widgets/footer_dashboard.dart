@@ -16,7 +16,7 @@ class FooterDashboard extends StatelessWidget {
         children: [
           Text(
             "© ${DateTime.now().year} ${Configs.appName}",
-            style: const TextStyle(fontSize: 13, color: Colors.grey),
+            style: const TextStyle(fontSize: 18, color: Colors.grey),
           ),
           const SizedBox(height: 4),
           //icon love

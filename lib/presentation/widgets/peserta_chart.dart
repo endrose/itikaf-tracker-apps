@@ -40,13 +40,28 @@ class PesertaChart extends StatelessWidget {
 
     return BarChart(
       BarChartData(
-        borderData: FlBorderData(show: false),
+        borderData: FlBorderData(
+          show: false,
+          border: const Border(top: BorderSide(color: Colors.white, width: 1)),
+        ),
+        alignment: BarChartAlignment.spaceAround,
 
-        gridData: FlGridData(show: true),
+        gridData: FlGridData(
+          show: true,
+          drawVerticalLine: false,
+          checkToShowHorizontalLine: (value) => false,
+        ),
 
         titlesData: FlTitlesData(
           leftTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: true, reservedSize: 28),
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 28,
+              getTitlesWidget: (value, meta) => Text(
+                value.toInt().toString(),
+                style: const TextStyle(fontSize: 11, color: Colors.white),
+              ),
+            ),
           ),
 
           rightTitles: const AxisTitles(
@@ -66,7 +81,7 @@ class PesertaChart extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 6),
                     child: Text(
                       cities[value.toInt()],
-                      style: const TextStyle(fontSize: 11),
+                      style: const TextStyle(fontSize: 11, color: Colors.white),
                     ),
                   );
                 }

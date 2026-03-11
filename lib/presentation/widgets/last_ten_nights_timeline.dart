@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:itikaf_tracker/common/helper/utils.dart';
 
@@ -33,7 +35,7 @@ class LastTenNightsTimeline extends StatelessWidget {
               final nowDate = DateTime.now();
               final isPast = date.isBefore(nowDate);
 
-              Color bgColor = Colors.grey.shade200;
+              Color bgColor = Colors.grey.shade200.withOpacity(0.15);
 
               if (isLastTen) {
                 bgColor = isOddNight ? Colors.orange : Colors.blue.shade200;
@@ -45,28 +47,40 @@ class LastTenNightsTimeline extends StatelessWidget {
                 bgColor = Colors.greenAccent.shade200;
               }
 
-              return Container(
-                width: 70,
-                margin: const EdgeInsets.symmetric(horizontal: 6),
-                decoration: BoxDecoration(
-                  color: bgColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      date.day.toString(),
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                  child: Container(
+                    width: 70,
+                    margin: const EdgeInsets.symmetric(horizontal: 6),
+                    decoration: BoxDecoration(
+                      color: bgColor,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    Text(
-                      getMonthAbbreviation(date.month),
-                      style: const TextStyle(fontSize: 12),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          date.day.toString(),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.none,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          getMonthAbbreviation(date.month),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               );
             },
@@ -92,7 +106,7 @@ Widget buildLegend() {
         const SizedBox(width: 20),
         _legendItem(Colors.blue.shade200, "Malam Genap"),
         const SizedBox(width: 20),
-        _legendItem(Colors.grey.shade200, "Hari Biasa"),
+        _legendItem(Colors.grey.shade200.withOpacity(0.15), "Hari Biasa"),
       ],
     ),
   );
@@ -107,11 +121,12 @@ Widget _legendItem(Color color, String text) {
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(3),
-          border: Border.all(color: Colors.black12),
+          // ignore: deprecated_member_use
+          border: Border.all(color: Colors.black12.withOpacity(0.4)),
         ),
       ),
       const SizedBox(width: 6),
-      Text(text, style: const TextStyle(fontSize: 12)),
+      Text(text, style: const TextStyle(fontSize: 12, color: Colors.white)),
     ],
   );
 }

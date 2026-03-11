@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:itikaf_tracker/common/helper/layouts/responsive.dart';
@@ -29,6 +30,7 @@ class _DashboardPageState extends State<DashboardPage> {
   Timer? refreshTimer;
 
   String token = '';
+  bool showKhutbah = false;
 
   @override
   void initState() {
@@ -103,294 +105,346 @@ class _DashboardPageState extends State<DashboardPage> {
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Responsive(
-                mobile: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${Configs.appName} Dashboard $year",
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-
-                    /// CLOCK
-                    _ClockWidget(),
-                  ],
-                ),
-
-                tablet: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        "${Configs.appName} Dashboard $year",
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const _ClockWidget(),
-                  ],
-                ),
-
-                desktop: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        "${Configs.appName} Dashboard $year",
-                        style: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const _ClockWidget(),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
-                ),
-                //tambahkan deskripsi untuk khubahtul hajjah
-                child: Column(
-                  children: [
-                    Center(
-                      child: Text(
-                        "Khutbahtul Hajjah",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-
-                    const Text(
-                      Configs.khutbahtulHajah,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      Configs.khubahtulHajjahDescription
-                          .map((e) => "$e\n")
-                          .join(),
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    Center(
-                      child: Text(
-                        "Doa Malam Lailatul Qadar",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      Configs.doaMalamLailatulQadar,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    const SizedBox(height: 8),
-                    //style itallic
-                    Text(
-                      Configs.deskripsiDoaMalamLailatulQadar,
-
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              /// SUMMARY CARDS
-              Responsive(
-                /// MOBILE
-                mobile: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SummaryCard(
-                      title: Configs.totalPeserta,
-                      value: totalPeserta.toString(),
-                      color: Colors.blue,
-                    ),
-                    const SizedBox(height: 12),
-                    SummaryCard(
-                      title: Configs.totalHadir,
-                      value: totalHadir.toString(),
-                      color: Colors.green,
-                    ),
-                    const SizedBox(height: 12),
-                    SummaryCard(
-                      title: Configs.totalTidakHadir,
-                      value: totalTidakHadir.toString(),
-                      color: Colors.red,
-                    ),
-                  ],
-                ),
-
-                /// TABLET
-                tablet: Row(
-                  children: [
-                    Expanded(
-                      child: SummaryCard(
-                        title: Configs.totalPeserta,
-                        value: totalPeserta.toString(),
-                        color: Colors.blue,
-                      ),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: SummaryCard(
-                        title: Configs.totalHadir,
-                        value: totalHadir.toString(),
-                        color: Colors.greenAccent,
-                      ),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: SummaryCard(
-                        title: Configs.totalTidakHadir,
-                        value: totalTidakHadir.toString(),
-                        color: Colors.redAccent,
-                      ),
-                    ),
-                  ],
-                ),
-
-                /// DESKTOP
-                desktop: Row(
-                  children: [
-                    Expanded(
-                      child: SummaryCard(
-                        title: Configs.totalPeserta,
-                        value: totalPeserta.toString(),
-                        color: Colors.blue,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: SummaryCard(
-                        title: Configs.totalHadir,
-                        value: totalHadir.toString(),
-                        color: Colors.greenAccent,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: SummaryCard(
-                        title: Configs.totalTidakHadir,
-                        value: totalTidakHadir.toString(),
-                        color: Colors.redAccent,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
-              /// CHART
-              /// CHART + ABSENSI
-              Responsive(
-                mobile: Column(
-                  children: [
-                    ChartSection(itikafData: itikafData),
-                    SizedBox(height: 20),
-                    AbsensiSection(absenData: absenData),
-                  ],
-                ),
-
-                tablet: Column(
-                  children: [
-                    ChartSection(itikafData: itikafData),
-                    SizedBox(height: 20),
-                    AbsensiSection(absenData: absenData),
-                  ],
-                ),
-
-                desktop: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: ChartSection(itikafData: itikafData),
-                    ),
-                    SizedBox(width: 20),
-                    Expanded(
-                      flex: 1,
-                      child: AbsensiSection(absenData: absenData),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
-              /// LAST TEN NIGHTS
-              Text(
-                "${Configs.lastTenNights} ",
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              //tanggal bulan tahun nya itu diambil dari kalender 2026, jadi 10 malam terakhir itu mulai dari tanggal 20 Maret 2026 sampai 29 Maret 2026 otomatis
-              LastTenNightsTimeline(
-                start: DateTime(2026, 3, 1),
-                year: Configs.currentYear,
-              ),
-
-              const SizedBox(height: 30),
-
-              const Text(
-                Configs.peserta,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-
-              const SizedBox(height: 10),
-
-              /// TABLE
-              /// search nya
-              PesertaTable(itikafData: itikafData),
-              //
-              const SizedBox(height: 80),
-              FooterDashboard(),
-            ],
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              "/images/png/background-image.png",
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+
+          Positioned.fill(
+            child: Container(color: Colors.black.withOpacity(0.35)),
+          ),
+
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Responsive(
+                    mobile: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${Configs.appName} Dashboard $year",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white.withOpacity(0.9),
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+
+                        /// CLOCK
+                        _ClockWidget(),
+                      ],
+                    ),
+
+                    tablet: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "${Configs.appName} Dashboard $year",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white.withOpacity(0.9),
+                            ),
+                          ),
+                        ),
+                        const _ClockWidget(),
+                      ],
+                    ),
+
+                    desktop: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "${Configs.appName} Dashboard $year",
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white.withOpacity(0.9),
+                            ),
+                          ),
+                        ),
+                        const _ClockWidget(),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      // const Spacer(),
+                      IconButton(
+                        tooltip: showKhutbah ? "Hide Khutbah" : "Show Khutbah",
+                        icon: Icon(
+                          showKhutbah ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            showKhutbah = !showKhutbah;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  /// KHUTBAH CONTAINER
+                  if (showKhutbah)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.3),
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              const Text(
+                                "Khutbahtul Hajjah",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+
+                              const Text(
+                                Configs.khutbahtulHajah,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              Text(
+                                Configs.khubahtulHajjahDescription.join("\n"),
+                                style: const TextStyle(color: Colors.white),
+                              ),
+
+                              const SizedBox(height: 20),
+
+                              const Text(
+                                "Doa Malam Lailatul Qadar",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+
+                              const SizedBox(height: 20),
+
+                              Text(
+                                Configs.doaMalamLailatulQadar,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              Text(
+                                Configs.deskripsiDoaMalamLailatulQadar,
+                                style: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.white70,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  const SizedBox(height: 20),
+
+                  /// SUMMARY CARDS
+                  Responsive(
+                    /// MOBILE
+                    mobile: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SummaryCard(
+                          title: Configs.totalPeserta,
+                          value: totalPeserta.toString(),
+                          color: Colors.blue,
+                        ),
+                        const SizedBox(height: 12),
+                        SummaryCard(
+                          title: Configs.totalHadir,
+                          value: totalHadir.toString(),
+                          color: Colors.green,
+                        ),
+                        const SizedBox(height: 12),
+                        SummaryCard(
+                          title: Configs.totalTidakHadir,
+                          value: totalTidakHadir.toString(),
+                          color: Colors.red,
+                        ),
+                      ],
+                    ),
+
+                    /// TABLET
+                    tablet: Row(
+                      children: [
+                        Expanded(
+                          child: SummaryCard(
+                            title: Configs.totalPeserta,
+                            value: totalPeserta.toString(),
+                            color: Colors.blue,
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: SummaryCard(
+                            title: Configs.totalHadir,
+                            value: totalHadir.toString(),
+                            color: Colors.greenAccent,
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: SummaryCard(
+                            title: Configs.totalTidakHadir,
+                            value: totalTidakHadir.toString(),
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    /// DESKTOP
+                    desktop: Row(
+                      children: [
+                        Expanded(
+                          child: SummaryCard(
+                            title: Configs.totalPeserta,
+                            value: totalPeserta.toString(),
+                            color: Colors.blue,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: SummaryCard(
+                            title: Configs.totalHadir,
+                            value: totalHadir.toString(),
+                            color: Colors.greenAccent,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: SummaryCard(
+                            title: Configs.totalTidakHadir,
+                            value: totalTidakHadir.toString(),
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  /// CHART
+                  /// CHART + ABSENSI
+                  Responsive(
+                    mobile: Column(
+                      children: [
+                        ChartSection(itikafData: itikafData),
+                        SizedBox(height: 20),
+                        AbsensiSection(absenData: absenData),
+                      ],
+                    ),
+
+                    tablet: Column(
+                      children: [
+                        ChartSection(itikafData: itikafData),
+                        SizedBox(height: 20),
+                        AbsensiSection(absenData: absenData),
+                      ],
+                    ),
+
+                    desktop: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: ChartSection(itikafData: itikafData),
+                        ),
+                        SizedBox(width: 20),
+                        Expanded(
+                          flex: 1,
+                          child: AbsensiSection(absenData: absenData),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  /// LAST TEN NIGHTS
+                  Text(
+                    "${Configs.lastTenNights} ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white.withOpacity(0.9),
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  //tanggal bulan tahun nya itu diambil dari kalender 2026, jadi 10 malam terakhir itu mulai dari tanggal 20 Maret 2026 sampai 29 Maret 2026 otomatis
+                  LastTenNightsTimeline(
+                    start: DateTime(2026, 3, 1),
+                    year: Configs.currentYear,
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  Text(
+                    Configs.peserta,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white.withOpacity(0.9),
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  /// TABLE
+                  /// search nya
+                  PesertaTable(itikafData: itikafData),
+                  //
+                  const SizedBox(height: 80),
+                  FooterDashboard(),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -431,7 +485,7 @@ class _ClockWidget extends StatelessWidget {
           formattedDate,
           style: TextStyle(
             fontSize: Responsive.isMobile(context) ? 14 : 18,
-            color: Colors.greenAccent[700],
+            color: Colors.white,
           ),
         );
       },
