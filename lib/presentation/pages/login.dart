@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:itikaf_tracker/common/helper/layouts/responsive.dart';
 import 'package:itikaf_tracker/core/configs/configs.dart';
-import 'package:itikaf_tracker/presentation/login_form.dart';
+import 'package:itikaf_tracker/presentation/pages/login_form.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

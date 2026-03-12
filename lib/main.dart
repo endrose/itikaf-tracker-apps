@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:itikaf_tracker/presentation/dashboard.dart';
-import 'package:itikaf_tracker/presentation/login.dart';
+import 'package:itikaf_tracker/presentation/pages/dashboard.dart';
+import 'package:itikaf_tracker/presentation/pages/home.dart';
+import 'package:itikaf_tracker/presentation/pages/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,14 +14,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Itikaf Tracker',
+      title: 'Muslim Tracker',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: LoginPage(),
+      home: DashboardPage(),
       routes: {
         '/dashboard': (context) => const DashboardPage(),
         '/login': (context) => const LoginPage(),
+        '/home': (context) => HomePage(),
       },
     );
   }
