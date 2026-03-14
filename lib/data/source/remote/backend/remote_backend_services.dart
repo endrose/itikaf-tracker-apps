@@ -22,7 +22,7 @@ class RemoteBackendServicesImpl implements RemoteBackendServices {
   RemoteBackendServicesImpl() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: "https://muslim.rsite.net/api/",
+        baseUrl: "http://muslim.rsite.net/api/",
         connectTimeout: const Duration(seconds: 10),
       ),
     );

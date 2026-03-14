@@ -436,7 +436,10 @@ class _DashboardPageState extends State<DashboardPage> {
 
                   /// TABLE
                   /// search nya
-                  PesertaTable(itikafData: itikafData),
+                  Container(
+                    width: double.infinity,
+                    child: PesertaTable(itikafData: itikafData),
+                  ),
                   //
                   const SizedBox(height: 80),
                   FooterDashboard(),

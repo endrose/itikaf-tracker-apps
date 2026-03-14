@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itikaf_tracker/presentation/pages/itikaf.dart';
 import 'app_drawer.dart';
 
 class DesktopHome extends StatefulWidget {
@@ -13,7 +14,7 @@ class _DesktopHomeState extends State<DesktopHome> {
 
   final pages = const [
     Center(child: Text("Home")),
-    Center(child: Text("Input Itikaf")),
+    ItikafPage(),
     Center(child: Text("Absensi")),
     Center(child: Text("Dashboard")),
   ];
@@ -29,11 +30,15 @@ class _DesktopHomeState extends State<DesktopHome> {
     return Scaffold(
       body: Row(
         children: [
-          /// SIDEBAR
           AppDrawer(onSelect: selectMenu),
 
-          /// CONTENT
-          Expanded(child: pages[selectedIndex]),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(24),
+              color: Colors.grey[100],
+              child: pages[selectedIndex],
+            ),
+          ),
         ],
       ),
     );
