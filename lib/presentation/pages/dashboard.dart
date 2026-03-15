@@ -7,7 +7,7 @@ import 'package:itikaf_tracker/common/helper/utils.dart';
 import 'package:itikaf_tracker/core/configs/configs.dart';
 import 'package:itikaf_tracker/data/models/absen.dart';
 import 'package:itikaf_tracker/data/models/itikaf.dart';
-import 'package:itikaf_tracker/data/source/remote/backend/remote_backend_services.dart';
+import 'package:itikaf_tracker/data/source/remote/backend/remote_google_sheet_services.dart';
 import 'package:itikaf_tracker/presentation/widgets/absensi_section.dart';
 import 'package:itikaf_tracker/presentation/widgets/chart_section.dart';
 import 'package:itikaf_tracker/presentation/widgets/footer_dashboard.dart';
@@ -23,7 +23,8 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  final RemoteBackendServicesImpl service = RemoteBackendServicesImpl();
+  // final RemoteBackendServicesImpl service = RemoteBackendServicesImpl();
+  final RemoteGoogleSheetServices service = RemoteGoogleSheetServicesImpl();
 
   List<ItikafModels> itikafData = [];
   List<AbsenModels> absenData = [];
@@ -46,7 +47,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   //init async
   Future<void> init() async {
-    await login();
+    // await login();
     await fetchData();
     startAutoRefresh();
   }
@@ -63,30 +64,32 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   //login
-  Future<void> login() async {
-    try {
-      final token = await service.authenticate(
-        Configs.username,
-        Configs.password,
-      ); // Ganti dengan kredensial yang valid
+  // Future<void> login() async {
+  //   try {
+  //     final token = await service.authenticate(
+  //       Configs.username,
+  //       Configs.password,
+  //     ); // Ganti dengan kredensial yang valid
 
-      this.token = token;
-      print("Token: $token");
-    } catch (e) {
-      print("Error during authentication: $e");
-    }
-  }
+  //     this.token = token;
+  //     print("Token: $token");
+  //   } catch (e) {
+  //     print("Error during authentication: $e");
+  //   }
+  // }
 
   //ambil data peserta itikaf dari api fetchItikafData
 
   Future<void> fetchData() async {
     try {
-      final data = await service.fetchItikafData();
-      final dataAbsen = await service.fetchAbsenData();
+      final results = await Future.wait([
+        service.fetchItikafDataGoogleSheet(),
+        service.fetchAbsenDataGoogleSheet(),
+      ]);
 
       setState(() {
-        itikafData = data;
-        absenData = dataAbsen;
+        itikafData = results[0] as List<ItikafModels>;
+        absenData = results[1] as List<AbsenModels>;
       });
     } catch (e) {
       print("Error fetching data: $e");

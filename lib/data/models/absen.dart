@@ -10,11 +10,11 @@ class AbsenModels extends AbsenEntity {
   });
 
   factory AbsenModels.fromJson(Map<String, dynamic> json) => AbsenModels(
-    id: json['id'],
-    user: json['user'],
-    nama: json['nama'],
-    kehadiran: json['kehadiran'],
-    waktu: DateTime.parse(json['waktu']),
+    id: json['Id'] ?? 0,
+    user: json['User'] ?? '',
+    nama: json['Nama'] ?? '',
+    kehadiran: json['Kehadiran'] ?? 'N',
+    waktu: DateTime.tryParse(json['Waktu']?.toString() ?? '') ?? DateTime.now(),
   );
 
   Map<String, dynamic> toJson() => {

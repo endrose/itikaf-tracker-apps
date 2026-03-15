@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:itikaf_tracker/presentation/pages/absen.dart';
 import 'package:itikaf_tracker/presentation/pages/itikaf.dart';
 import 'app_drawer.dart';
 
@@ -15,7 +16,7 @@ class _DesktopHomeState extends State<DesktopHome> {
   final pages = const [
     Center(child: Text("Home")),
     ItikafPage(),
-    Center(child: Text("Absensi")),
+    AbsenPage(),
     Center(child: Text("Dashboard")),
   ];
 

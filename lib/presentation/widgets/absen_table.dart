@@ -1,66 +1,44 @@
-// import 'package:flutter/material.dart';
-// import 'package:itikaf_tracker/common/helper/utils.dart';
-// import 'package:itikaf_tracker/data/models/absen.dart';
+import 'package:flutter/material.dart';
+import 'package:itikaf_tracker/data/models/absen.dart';
+import 'package:itikaf_tracker/presentation/widgets/absen_datasource.dart';
 
-// class AbsensiSection extends StatelessWidget {
-//   final List<AbsenModels> absenData;
+class AbsenTable extends StatelessWidget {
+  final List<AbsenModels> absenData;
+  final Function(AbsenModels)? onEdit;
+  final Function(int)? onDelete;
 
-//   const AbsensiSection({super.key, required this.absenData});
+  const AbsenTable({
+    super.key,
+    required this.absenData,
+    this.onEdit,
+    this.onDelete,
+  });
 
-//   @override
-//   Widget build(BuildContext context) {
-//     if (absenData.isEmpty) {
-//       return const Card(
-//         child: Padding(
-//           padding: EdgeInsets.all(20),
-//           child: Center(child: Text("Belum ada data absensi")),
-//         ),
-//       );
-//     }
+  @override
+  Widget build(BuildContext context) {
+    final source = AbsenDatasource(
+      data: absenData,
+      onEdit: onEdit,
+      onDelete: onDelete,
+    );
 
-//     return Card(
-//       child: Padding(
-//         padding: const EdgeInsets.all(16),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             const Text(
-//               "Absensi Peserta",
-//               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//             ),
-
-//             const SizedBox(height: 12),
-
-//             ListView.builder(
-//               shrinkWrap: true,
-//               physics: const NeverScrollableScrollPhysics(),
-//               itemCount: absenData.length,
-//               itemBuilder: (context, index) {
-//                 final item = absenData[index];
-
-//                 return ListTile(
-//                   leading: const Icon(Icons.person),
-
-//                   title: Text(item.nama),
-
-//                   //tanggal  gunakan item.tanggal dan bunga
-//                   subtitle: Text(
-//                     formatFullDateWithTime(item.waktu),
-//                     style: const TextStyle(color: Colors.grey),
-//                   ),
-
-//                   trailing: Chip(
-//                     label: Text(item.kehadiran),
-//                     backgroundColor: item.kehadiran.toLowerCase() == "Hadir"
-//                         ? Colors.green
-//                         : Colors.red,
-//                   ),
-//                 );
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: 1200, // kasih width tetap
+        child: PaginatedDataTable(
+          header: const Text("Daftar Absen Peserta"),
+          rowsPerPage: 5,
+          columns: const [
+            //no suray
+            DataColumn(label: Text("Nama")),
+            DataColumn(label: Text("Kehadiran")),
+            DataColumn(label: Text("Waktu")),
+            DataColumn(label: Text("Action")),
+          ],
+          source: source,
+        ),
+      ),
+    );
+  }
+}

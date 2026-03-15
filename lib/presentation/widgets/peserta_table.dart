@@ -29,21 +29,22 @@ class PesertaTable extends StatelessWidget {
         child: PaginatedDataTable(
           header: const Text("Daftar Peserta Itikaf"),
           rowsPerPage: 5,
-          columns: const [
+          columns: [
             //no suray
-             
-            DataColumn(label: Text("Nama")),
-            DataColumn(label: Text("Alamat")),
-            DataColumn(label: Text("Tanggal Lahir")),
-            DataColumn(label: Text("Asal")),
-            DataColumn(label: Text("Awal")),
-            DataColumn(label: Text("Akhir")),
-            DataColumn(label: Text("Telepon")),
-            DataColumn(label: Text("Action")),
+            const DataColumn(label: Text("Nama")),
+            const DataColumn(label: Text("Alamat")),
+            const DataColumn(label: Text("Tanggal Lahir")),
+            const DataColumn(label: Text("Asal")),
+            const DataColumn(label: Text("Awal")),
+            const DataColumn(label: Text("Akhir")),
+            const DataColumn(label: Text("Telepon")),
+            const DataColumn(label: Text("Action")),
           ],
           source: source,
         ),
       ),
     );
   }
+
+  
 }

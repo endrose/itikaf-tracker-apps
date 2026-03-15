@@ -15,16 +15,18 @@ class ItikafModels extends ItikafEntity {
   });
 
   factory ItikafModels.fromJson(Map<String, dynamic> json) => ItikafModels(
-    id: json['id'],
-    user: json['user'],
-    nama: json['nama'],
-    alamat: json['alamat'],
-    telepon: json['telepon'],
-    tanggalLahir: DateTime.parse(json['tanggalLahir']),
-    asal: json['asal'],
-    awal: DateTime.parse(json['awal']),
-    akhir: DateTime.parse(json['akhir']),
-    deskripsi: json['deskripsi'],
+    id: json['Id'] ?? 0,
+    user: json['User'] ?? '',
+    nama: json['Nama'] ?? '',
+    alamat: json['Alamat'] ?? '',
+    telepon: json['Telepon']?.toString() ?? '',
+    tanggalLahir:
+        DateTime.tryParse(json['Tanggal Lahir']?.toString() ?? '') ??
+        DateTime(2000),
+    asal: json['Asal'] ?? '',
+    awal: DateTime.tryParse(json['Awal']?.toString() ?? '') ?? DateTime.now(),
+    akhir: DateTime.tryParse(json['Akhir']?.toString() ?? '') ?? DateTime.now(),
+    deskripsi: json['Deskripsi'] ?? '',
   );
 
   Map<String, dynamic> toJson() => {
